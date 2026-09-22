@@ -1,0 +1,170 @@
+#include <stdio.h>
+#include <cstring>
+//TERMINAR ESSE PROGRAMA CHEIO DE ERRO E INCOMPLETO
+
+struct DADOSVOO
+{
+	char cidadeOrigem[200];
+	char cidadeDestino[200];
+	int tempVoo;
+	float distancia;
+	char empresaAerea[200];
+	float velociademedia;
+	float custoporkm;
+	int nEscala;
+	float custo;
+
+};
+class VOO
+{
+	private struct DADOSVOO voo;
+
+public:
+	VOO()
+	{
+		strcpy(voo.cidadeOrigem,"");
+		strcpy(voo.cidadeDestino,"");
+		voo.tempVoo=-1;
+		voo.distancia=-1;
+		strcpy(voo.empresaAerea,"");
+		voo.velociademedia=-1;
+		voo.custoporkm=-1;
+		voo.nEscala=-1;
+		voo.custo=-1;
+	}
+
+public:
+	void cadastrarVoo(char O,char D,int temp,int dis,char emp,float vmedia,float ckm,int escala,float ct)
+	{
+		strcpy(voo.cidadeOrigem=O);
+		strcpy(voo.cidadeDestino=D);
+		voo.tempVoo =temp;
+		voo.distancia = dis;
+		strcpy(voo.empresaAerea = emp);
+		voo.velociademedia=vmedia;
+		voo.custoporkm=ckm;
+		voo.nEscala= escala;
+		voo.custo = ct;
+		calcular();
+	};
+public:
+	void calcular()
+	{
+		voo.custoporkm=voo.custo/voo.distancia;
+		voo.velociademedia=voo.distancia/voo.tempVoo;
+	}
+public:
+	struct DADOSVOO getDadosVoo()
+	{
+		return voo;
+	};
+public:
+	void setCidadeOrigem(char *c)
+	{
+		strcpy(voo.cidadeOrigem,c)
+	};
+
+public:
+	void *getCidadeOrigem()
+	{
+		return voo.cidadeOrigem();
+	}
+public:
+	void setCidadeDestino(char *c)
+	{
+		strcpy(voo.cidadeDestino,c)
+	}
+public:
+	void *getCidadeDestino()
+	{
+		return voo.cidadeDestino();
+	}
+public:
+	void getTempVoo()
+	{
+		return voo.tempVoo();
+	}
+public:
+	void setTempVoo()
+	{
+		voo.tempVoo = temp;
+	}
+public:
+	void setDistancia(float dis)
+	{
+		voo.distancia = dis;
+	}
+public:
+	void getDistancia()
+	{
+		return voo.cidadeDestino();
+	}
+public:
+	void setEmpresaAerea(char *c)
+	{
+		strcpy(voo.empresaAerea,c)
+	};
+
+public:
+	void char *getEmpresaAerea(char *C)
+	{
+		return voo.empresaAerea();
+	}
+public:
+	void setEscalas(int escala)
+	{
+		voo.nEscala = escala;
+	}
+public:
+	int getEscalas()
+	{
+		return voo.nEscala;
+	}
+public: void setCusto(float ct)
+{
+    voo.custo=ct;
+};
+public: float getCusto()
+{
+    return voo.custo;
+};
+};
+
+
+
+
+
+int main()
+{
+	VOO voo;
+	char O[100];
+	char D[100];
+	char emp[100];
+	strcpy(O;"CAMPINAS");
+	strcpy(D;"RAPIDOPOLIS");
+	strcpy(emp;"RAPID_AIR");
+    voo.cadastrarVoo(O,D,767,11703,emp,0,1487);
+printf("\nCIDADE ORIGEM: %s",voo.getCidadeOrigem());
+printf("\nCIDADE DESTINO: %s",voo.getCidadeDestino());
+printf("\nTEMPO; %5d",voo.getTempVoo());
+printf("\nDISTANCIA; %7.2f",voo.getDistancia());
+printf("\nEMPRESA AEREA; %s",voo.getEmpresaAerea());
+printf("\nESCALA; %5d",voo.getEscalas());
+printf("\nCUSTO; %7.2f",voo.getCusto());
+printf("\nVELOCIDADEMEDIA; %7.2f",voo.getVelocidadeMedia);
+printf("\nCUSTO POR KM; %7.2f",voo.getcustoKm());
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
