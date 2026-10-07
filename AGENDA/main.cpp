@@ -120,7 +120,11 @@ class AGENDACONTATOS
     
     public: void setContato(char *n,int d,char *c)
     {
+        printf("\n\nNOME: %s",n);
+            printf("\n (%03d) - %s",d,c);
         contatos[nReg].setContato(n,d,c);
+        printf("\n\nNOME: %s",contatos[nReg].getNome());
+            printf("\n (%03d) - %s",contatos[nReg].getDDD(),contatos[nReg].getCelular());
         nReg++;
     };
     
@@ -161,9 +165,16 @@ class AGENDACONTATOS
     
     public: int consultar(char *n)
     {
+        char auxNome[1000];
+        n[strlen(n)-1]='\0';
         for(int pos=0;pos<nReg;pos++)
         {
-          if( strcmp(contatos[pos].getNome(),n)==0 )
+            strcpy(auxNome,contatos[pos].getNome());
+            auxNome[strlen(auxNome)-1]='\0';
+           // printf("\n\nNOME: %d  %s",strlen(auxNome),auxNome);
+           // printf("\n (%03d) - %s",contatos[pos].getDDD(),contatos[pos].getCelular());
+           // printf("\nCMP: %d  %d NOME: %s", strcmp(contatos[pos].getNome(),n),strlen(n),n);
+          if( strcmp(auxNome,n)==0 )
              return pos;
         }
         
@@ -174,6 +185,8 @@ class AGENDACONTATOS
     {
         for(int pos=0;pos<nReg;pos++)
         {
+            printf("\n\nNOME: %s",contatos[pos].getNome());
+            printf("\n (%03d) - %s",contatos[pos].getDDD(),contatos[pos].getCelular());
           if( (strcmp(contatos[pos].getCelular(),c)==0)&&(d==contatos[pos].getDDD()) )
              return pos;
         }
@@ -184,15 +197,27 @@ class AGENDACONTATOS
     public: int arquivoGravarDados(char *nm)
     {
         //[1] DEFINIR PONTEIRO DO ARQUIVO
+        FILE *arq;
 
         //[2] ABRIR ARQUIVO PARA ESCRITA
-
+        arq=fopen(nm,"wt");
         
         //[3] ESCREVER DADOS NO ARQUIVO
-
+        for(int pos =0;pos<nReg;pos++)
+        {
+            //ESCREVER nome
+            fprintf(arq,"%s\n",getNome(pos));
+            //ESCREVER ddd
+            fprintf(arq,"%d\n",getDDD(pos));
+            //ESCREVER celular
+            if(pos<nReg-1)
+            fprintf(arq,"%s\n",getCelular(pos));
+            else
+            fprintf(arq,"%s",getCelular(pos));
+        }
         
         //[4] FECHAR ARQUIVO
-
+        fclose(arq);
 
         return nReg;
     };
@@ -221,9 +246,9 @@ class AGENDACONTATOS
             buffer[strlen(buffer)-1]='\0';
             strcpy(celular,buffer);
             
-            contatos[nReg].setContato(nome,ddd,celular);
+            setContato(nome,ddd,celular);
             
-            nReg++;
+            //nReg++;
         }
         //[4] FECHAR ARQUIVO
         fclose(arq);
@@ -245,11 +270,12 @@ int main()
         char opcao[10]={"S"};
         char confirmar='S';
         char aux[1000];
-        char nomearquivo[1000];
+        char nomearquivo[1000] = "AGENDA.txt";
     	int nReg=0;
     	char nome[1000];
     	int ddd;
     	char celular[1000];
+    	int auxPos;
 	
 
 	    while(opcao[0]!='0')
@@ -276,7 +302,18 @@ int main()
             //CADASTRAR
             if(opcao[0]=='1')
             {
-
+                printf("\n\nCADASTRAR");
+             int pos = 0;
+                //LER NOME
+                printf("\nDIGITE O NOME: ");
+               scanf("%s", nome);
+               // LER ddd
+               printf("\nDIGITE O DDD: ");
+               scanf("%d", ddd);
+              //  LER CELULAR
+              printf("\nDIGITE O CELULAR: ");
+              scanf("%s",celular);
+                agenda.setContato(nome,ddd,celular);
             }
             
             //LISTAR
@@ -298,18 +335,20 @@ int main()
             {
             //DIGITAR O NOME PROCURADO
             printf("\n\nDIGITAR O NOME PROCURADO: ");
-            scanf("%s",nome);
-            getchar();
+            //scanf("%s",nome);
+            fgets(nome,200,stdin);
+            //getchar();
             //REMOVER \N
-            nome[strlen(nome)]='\0';
-            
+            //nome[strlen(nome)]='\0';
+            printf("\n\nNOME: %s",nome);
             //CHAMAR O METODO CONSULTAR
-            int pos = agenda.consultar(nome);
+            auxPos = agenda.consultar(nome);
+            printf("\nPOS:  %d",auxPos);
             //VERIFICAR SE POSICAO>=0 IMPRIMIR DADOS
-            if(pos >=0)
+            if(auxPos >=0)
             {
-                printf("\nNOME: %s",agenda.getNome(pos));
-                printf("\n (%03d) - %s",agenda.getDDD(pos),agenda.getCelular(pos));
+                printf("\nNOME: %s",agenda.getNome(auxPos));
+                printf("\n (%03d) - %s",agenda.getDDD(auxPos),agenda.getCelular(auxPos));
             }
             else
             {
@@ -320,7 +359,25 @@ int main()
             //CONSULTAR CELULAR
             if(opcao[0]=='4')
             {
-
+                printf("\n\nDIGITAR O CELULAR PROCURADO: ");
+                printf("\nDIGITAR O DDD: ");
+                scanf("%d",&ddd);
+                printf("\nDIGITAR O CELULAR: ");
+                scanf("%s",celular);
+               //celular[strlen(celular) ]='\0';
+               printf("\n (%03d) - %s",ddd,celular);
+               // getchar();
+        
+                int pos =agenda.consultar(ddd,celular);
+                if(pos >=0)
+                {
+                     printf("\nNOME: %s",agenda.getNome(pos));
+                    printf("\n (%03d) - %s",agenda.getDDD(pos),agenda.getCelular(pos));
+                }
+                else
+                {
+                    printf("\n\n CELULAR NAO CADASTRADO");
+                }
             }
             
             //ALTERAR
@@ -333,14 +390,16 @@ int main()
             if(opcao[0]=='R')
             {
                 printf("\n\nABRIR ARQUIVO PARA LEITURA");
-                agenda.arquivoLerDados("AGENDA.txt");
+                agenda.arquivoLerDados(nomearquivo);
                 printf("DADOS LIDOS COM SUCESSO");
             }
             
             //GRAVAR DADOS ARQUIVO
             if(opcao[0]=='W')
             {
-
+                printf("\n\nABRIR ARQUIVO PARA ESCRITA");
+                agenda.arquivoGravarDados(nomearquivo);
+                printf("DADOS GRAVADOS COM SUCESSO");
             }
             
 	    }
@@ -348,4 +407,3 @@ int main()
 	
     return 0;
 }
-
