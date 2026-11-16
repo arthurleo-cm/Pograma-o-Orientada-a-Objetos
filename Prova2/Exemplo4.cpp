@@ -78,14 +78,8 @@ public: int ehnumericas()
     {
         if((stringoriginal[i] < '0') || (stringoriginal[i] > '9'))
         {
-        //  printf("NAO Eh NUMERO  ");
           return 0;    
         }
-       // else
-        //  {
-         //     printf("Eh NUMERO  ");
-        //  }
-       // return 1;
     }
     
     return 1;
