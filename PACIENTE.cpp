@@ -131,33 +131,84 @@ class CONSULTA : public PACIENTE
 {
     protected: char observacao[1000];
     protected: char nomeMedico[1000];
-    protected: data[200];
-    protected: horario[200];
+    protected: char data[200];
+    protected: char horario[200];
+    
+public: CONSULTA()
+{
+    strcpy(tiposangue, "");
+		glicose = -1;
+		colesterol = -1;
+		gc = -1;
+		strcpy(observacao,"");
+		strcpy(nomeMedico,"");
+		strcpy(data,"");
+        strcpy(horario,"");
 }
+public: void setCONSULTA(char *nm, char *sx, int idd,char *ts, float g, float col,char *obs,char *nme,char *dt,char *hr)
+	{
+		setCadastro(nm, sx, idd);
+		strcpy(tiposangue, ts);
+		glicose = g;
+		colesterol = col;
+		gc = calcularGC();
+		strcpy(observacao,obs);
+		strcpy(nomeMedico,nme);
+		strcpy(data,dt);
+		strcpy(horario,hr);
+	}
+    char *getOBSERVACAO()
+    {
+        return observacao;
+    }
+    char *getNOMEMEDICO()
+    {
+        return nomeMedico;
+    }
+    char *getDATA()
+    {
+        return data;
+    }
+    char *getHORARIO()
+    {
+        return horario;;
+    }
+};
 
 
 int main()
 {
-	char nome[100], sexo[100], tiposangue[100];
+    char nome[100], sexo[100], tiposangue[100];
+    char nomeMedico[100], observacao[100], data[100], horario[100];
 
-	PACIENTE pessoa;
+    CONSULTA pessoa;
 
-	strcpy(nome, "FRODO");
-	strcpy(sexo, "MASCULINO");
-	strcpy(tiposangue, "B");
+    strcpy(nome, "FRODO");
+    strcpy(sexo, "MASCULINO");
+    strcpy(tiposangue, "B");
+    strcpy(nomeMedico, "GANDALF");
+    strcpy(observacao, "ESTA SAUDAVEL");
+    strcpy(data, "2026-12-2");
+    strcpy(horario, "12:00");
 
-	pessoa.setPaciente(nome, sexo, 33, tiposangue, 80, 210);
+    pessoa.setCONSULTA(nome, sexo, 33, tiposangue,
+                       80, 210, observacao, nomeMedico, data, horario);
 
-	printf("\n[NOME]: %s", pessoa.getNOME());
-	printf("\n[SEXO]: %s", pessoa.getSEXO());
-	printf("\n[TIPO SANGUINEO]: %s", pessoa.getTIPOSANGUE());
-	printf("\n[IDADE]: %d anos", pessoa.getIDADE());
+    printf("\n[NOME]: %s", pessoa.getNOME());
+    printf("\n[SEXO]: %s", pessoa.getSEXO());
+    printf("\n[TIPO SANGUINEO]: %s", pessoa.getTIPOSANGUE());
+    printf("\n[IDADE]: %d anos", pessoa.getIDADE());
 
-	printf("\n[COLESTEROL]: %.2f", pessoa.getCOLESTEROL());
-	printf("\n[GLICOSE]: %.2f", pessoa.getGLICOSE());
-	printf("\n[GC]: %.6f", pessoa.getGC());
+    printf("\n[COLESTEROL]: %.2f", pessoa.getCOLESTEROL());
+    printf("\n[GLICOSE]: %.2f", pessoa.getGLICOSE());
+    printf("\n[GC]: %.6f", pessoa.getGC());
 
-	printf("\n\nOBRIGADO POR UTILIZAR UM SOFTWARE TABAJARA");
+    printf("\n[OBSERVACAO]: %s", pessoa.getOBSERVACAO());
+    printf("\n[MEDICO]: %s", pessoa.getNOMEMEDICO());
+    printf("\n[DATA]: %s", pessoa.getDATA());
+    printf("\n[HORARIO]: %s", pessoa.getHORARIO());
 
-	return 0;
+    printf("\n\nOBRIGADO POR UTILIZAR UM SOFTWARE TABAJARA");
+
+    return 0;
 }
